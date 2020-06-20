@@ -22,6 +22,7 @@ runs:
   args:
     - ${{ inputs.source_repo }}
     - ${{ inputs.source_branch }}:${{ inputs.destination_branch }}
+    - ${{ inputs.strategy }}
 
 branding:
   icon: 'git-merge'
