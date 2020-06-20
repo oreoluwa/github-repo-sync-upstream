@@ -18,9 +18,15 @@ fi
 
 UPSTREAM_REPO=$1
 BRANCH_MAPPING=$2
+STRATEGY=$4
 
 if [[ -z "$UPSTREAM_REPO" ]]; then
   echo "Missing \$UPSTREAM_REPO"
+  exit 1
+fi
+
+if [[ -z "$STRATEGY" ]]; then
+  echo "Missing \$STRATEGY"
   exit 1
 fi
 
@@ -44,7 +50,16 @@ git remote add upstream "$UPSTREAM_REPO"
 git fetch upstream "${BRANCH_MAPPING%%:*}"
 git remote -v
 
-git rebase --autosquash --autostash "upstream/${BRANCH_MAPPING%%:*}"
+if [[ "$STRATEGY"="rebase" ]]; then
+  echo "Rebasing:"
+  git rebase --autosquash --autostash "upstream/${BRANCH_MAPPING%%:*}"
+fi
+
+if [[ "$STRATEGY"="merge" ]]; then
+  echo "Merging Upstream into your branch:"
+  git merge "upstream/${BRANCH_MAPPING%%:*}"
+fi
+
 git push --force origin "${BRANCH_MAPPING#*:}"
 
 git remote rm upstream
