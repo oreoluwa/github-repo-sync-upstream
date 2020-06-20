@@ -19,6 +19,9 @@ fi
 UPSTREAM_REPO=$1
 BRANCH_MAPPING=$2
 STRATEGY=$3
+LOCAL_BRANCH=$$(echo $2 | cut -d: -f2)
+
+git checkout $LOCAL_BRANCH
 
 if [[ -z "$UPSTREAM_REPO" ]]; then
   echo "Missing \$UPSTREAM_REPO"
