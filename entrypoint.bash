@@ -18,7 +18,7 @@ fi
 
 UPSTREAM_REPO=$1
 BRANCH_MAPPING=$2
-STRATEGY=$4
+STRATEGY=$3
 
 if [[ -z "$UPSTREAM_REPO" ]]; then
   echo "Missing \$UPSTREAM_REPO"
