@@ -50,13 +50,13 @@ git remote add upstream "$UPSTREAM_REPO"
 git fetch upstream "${BRANCH_MAPPING%%:*}"
 git remote -v
 
-if [[ "$STRATEGY"="rebase" ]]; then
-  echo "Rebasing:"
+if [[ "$STRATEGY" == "rebase" ]]; then
+  echo "Rebasing ..."
   git rebase --autosquash --autostash "upstream/${BRANCH_MAPPING%%:*}"
 fi
 
-if [[ "$STRATEGY"="merge" ]]; then
-  echo "Merging Upstream into your branch:"
+if [[ "$STRATEGY" == "merge" ]]; then
+  echo "Merging Upstream into your branch ..."
   git merge "upstream/${BRANCH_MAPPING%%:*}"
 fi
 
