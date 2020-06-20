@@ -12,6 +12,9 @@ inputs:
   destination_branch:
     description: Branch name to sync to in this repo
     required: true
+  strategy:
+    description: Choose merge or rebase as your syncing strategy.
+    required: true
 
 runs:
   using: 'docker'
