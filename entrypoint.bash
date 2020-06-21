@@ -21,6 +21,10 @@ BRANCH_MAPPING=$2
 STRATEGY=$3
 LOCAL_BRANCH=$(echo $2 | cut -d: -f2)
 
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+
+git fetch origin 
+
 git checkout $LOCAL_BRANCH
 
 if [[ -z "$UPSTREAM_REPO" ]]; then
@@ -47,7 +51,6 @@ echo "BRANCHES=$BRANCH_MAPPING"
 
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
-git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
 git remote add upstream "$UPSTREAM_REPO"
 git fetch upstream "${BRANCH_MAPPING%%:*}"
