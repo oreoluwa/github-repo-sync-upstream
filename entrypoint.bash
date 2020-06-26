@@ -21,9 +21,10 @@ BRANCH_MAPPING=$2
 STRATEGY=$3
 LOCAL_BRANCH=$(echo $2 | cut -d: -f2)
 
-git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+git clone "https://github.com/${GITHUB_REPOSITORY}.git" work
+cd work || { echo "Missing work dir" && exist 2 ; }
 
-git fetch origin 
+git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
 git checkout $LOCAL_BRANCH
 
@@ -66,7 +67,12 @@ if [[ "$STRATEGY" == "merge" ]]; then
   git merge "upstream/${BRANCH_MAPPING%%:*}"
 fi
 
-git push --force origin "${BRANCH_MAPPING#*:}"
+PUSH_FLAGS="--force"
+if [[ "$FORCE_PUSH" == "false" ]]; then
+  PUSH_FLAGS=""
+fi
+
+git push $PUSH_FLAGS origin "${BRANCH_MAPPING#*:}"
 
 git remote rm upstream
 git remote -v
